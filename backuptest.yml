@@ -1,0 +1,117 @@
+1. Pick Ollama model (recommended now)
+
+  - You already have mistral:latest installed, so use that first.
+  - Optional better-quality next step: ollama pull llama3.1:8b
+
+  ollama list
+  ollama run mistral:latest
+  # optional
+  ollama pull llama3.1:8b
+
+  Set in .env:
+
+  NEGO_LLM_PROVIDER=openai_compatible
+  NEGO_LLM_API_BASE=http://127.0.0.1:11434/v1
+  NEGO_LLM_API_KEY=ollama
+  NEGO_LLM_MODEL=mistral:latest
+
+  2. Install PostgreSQL (you don’t have psql yet)
+
+  winget install -e --id PostgreSQL.PostgreSQL.16
+
+  Create DB:
+
+  & "C:\Program Files\PostgreSQL\16\bin\psql.exe" -U postgres -c "CREATE DATABASE
+  nego;"
+
+  3. Python requirements (critical: upgrade to 3.11+)
+
+  - Current machine has Python 3.10.5, but project requires >=3.11.
+
+  winget install -e --id Python.Python.3.11
+  cd D:\nego
+  py -3.11 -m venv .venv
+  .\.venv\Scripts\Activate.ps1
+  python -m pip install --upgrade pip
+  pip install -e .
+
+  4. Frontend npm modules
+
+  - Node is already OK (v24.12.0).
+
+  cd D:\nego\frontend
+  npm install
+
+  5. Required env + services
+     Create D:\nego\.env:
+
+  NEGO_DATABASE_URL=postgresql+psycopg://postgres:1234@localhost:5432/nego
+  NEGO_QDRANT_URL=http://localhost:6333
+  NEGO_AUTH_ENABLED=true
+  NEGO_AUTH_KEY_PEPPER=replace-with-strong-secret
+  NEGO_AUTH_BOOTSTRAP_TOKEN=replace-with-bootstrap-token
+  NEGO_CLAUSE_CLASSIFIER_PROVIDER=keyword
+  NEGO_EMBEDDING_PROVIDER=deterministic
+  NEGO_ACCEPTANCE_MODEL_PROVIDER=baseline
+  NEGO_LLM_PROVIDER=openai_compatible
+  NEGO_LLM_API_BASE=http://127.0.0.1:11434/v1
+  NEGO_LLM_API_KEY=ollama
+  NEGO_LLM_MODEL=mistral:latest
+#   NEGO_LLM_MODEL=llama3.1:8b
+
+  
+  NEGO_CORPUS_ALLOWED_ROOTS=D:/nego
+
+  Also run Qdrant (required by app):
+
+  docker run -d --name qdrant -p 6333:6333 qdrant/qdrant
+
+  6. Migrate + run
+
+  cd D:\nego
+  .\.venv\Scripts\Activate.ps1
+  alembic upgrade head
+  uvicorn app.main:app --reload
+
+  cd D:\nego\frontend
+  npm start
+
+  Current machine status I checked:
+
+  - Ollama models present: mistral:latest, nomic-embed-text:latest
+  - Node: OK
+  - Python: needs 3.11+
+  - PostgreSQL CLI: not installed yet
+
+
+
+T1
+
+  {
+  "key_id": "b8eaeff0-26e5-456a-9790-434d30e64574",
+  "user_id": "5097820a-50e6-4681-b11b-735ffa597d30",
+  "key_prefix": "8eab9f4df76d",
+  "api_key": "nego_8eab9f4df76d_56f3ec938fe9ad25afad2d872f0aea7a590040311a6fb4b7",
+  "created_at": "2026-02-12T15:39:36.967978+05:30"
+}
+
+
+T2
+{
+  "key_id": "ef1b9239-2d70-434b-ac82-1b6cfaa4340d",
+  "user_id": "5b7f1e61-52e9-486a-a7cf-a335fd1244e2",
+  "key_prefix": "1c5c2d8ae164",
+  "api_key": "nego_1c5c2d8ae164_6bab1bf70b677eb3437f8998f9fdf7a5896b7150d84cf5cc",
+  "created_at": "2026-02-23T15:11:12.526697+05:30"
+}
+
+
+T3
+
+{
+  "key_id": "0b5c9216-9698-4bb4-b428-31a7ce61974b",
+  "user_id": "fc08ae0a-3c4d-4a25-895f-1da83a85974f",
+  "key_prefix": "ebd3beca2d77",
+  "api_key": "nego_ebd3beca2d77_cb9a715cb574c44b59f774d899df1135600d8bd2b587a999",
+  "created_at": "2026-02-23T16:39:59.110710+05:30"
+}

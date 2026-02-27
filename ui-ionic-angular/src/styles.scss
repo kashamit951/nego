@@ -1,0 +1,829 @@
+@import '@ionic/angular/css/core.css';
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
+@import '@ionic/angular/css/display.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+  --app-surface-gradient: radial-gradient(circle at 10% 0%, #f4f8ff 0%, #e6f0ff 38%, #fdf8f2 100%);
+  --shell-card-bg: rgba(255, 255, 255, 0.82);
+  --shell-border: rgba(18, 54, 120, 0.16);
+  --shell-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+  --shell-ink: #0f172a;
+  --shell-muted: #5b6476;
+  --shell-sidebar-bg: linear-gradient(175deg, #0d162b, #141d35);
+  --shell-sidebar-border: rgba(100, 116, 139, 0.26);
+  --shell-sidebar-ink: #f8fafc;
+  --shell-sidebar-muted: #94a3b8;
+  --theme-a: #0f766e;
+  --theme-b: #1d4ed8;
+  --auth-ink: #0f172a;
+  --auth-muted: #5b6476;
+  --auth-accent: var(--theme-a);
+  --auth-accent-2: var(--theme-b);
+  --ui-radius-lg: 16px;
+  --ui-radius-md: 12px;
+  --ui-radius-sm: 10px;
+  --ui-input-height: 38px;
+  --ui-textarea-height: 96px;
+  --ui-primary-a: #0ea5e9;
+  --ui-primary-b: #2563eb;
+  --ui-secondary-a: #14b8a6;
+  --ui-secondary-b: #0f766e;
+  --ui-tertiary-a: #f59e0b;
+  --ui-tertiary-b: #d97706;
+  --ui-danger-a: #f97316;
+  --ui-danger-b: #dc2626;
+  --ui-control-border: rgba(37, 99, 235, 0.2);
+  --ui-control-bg: rgba(255, 255, 255, 0.82);
+  --ui-control-text: #0f172a;
+  --ui-control-focus: rgba(37, 99, 235, 0.2);
+}
+
+html,
+body,
+ion-app,
+ion-content {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Avenir Next', 'Segoe UI', sans-serif;
+  color: var(--shell-ink);
+  background: var(--app-surface-gradient);
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.page-shell {
+  display: grid;
+  gap: 16px;
+}
+
+.section-card {
+  border-radius: var(--ui-radius-lg);
+  border: 1px solid var(--shell-border);
+  background: var(--shell-card-bg);
+  box-shadow: var(--shell-shadow);
+  backdrop-filter: blur(10px);
+  animation: surface-lift 420ms ease both;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.section-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.14);
+  border-color: color-mix(in srgb, var(--theme-b) 36%, #ffffff 64%);
+}
+
+.section-card ion-card-header {
+  border-bottom: 1px solid var(--shell-border);
+}
+
+.result-box {
+  background: linear-gradient(170deg, rgba(15, 23, 42, 0.94), rgba(30, 41, 59, 0.92));
+  color: #e5f4ff;
+  border-radius: 10px;
+  padding: 12px;
+  max-height: 420px;
+  overflow: auto;
+  font-size: 12px;
+}
+
+.result-accordion {
+  border: 1px solid var(--shell-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.58);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.result-accordion:hover {
+  border-color: color-mix(in srgb, var(--theme-a) 40%, var(--shell-border) 60%);
+  box-shadow: 0 8px 26px rgba(15, 23, 42, 0.08);
+}
+
+.result-accordion > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 10px 12px;
+  font-weight: 600;
+  color: var(--shell-ink);
+  background: rgba(148, 163, 184, 0.12);
+}
+
+.result-accordion > summary::-webkit-details-marker {
+  display: none;
+}
+
+.result-accordion[open] > summary {
+  border-bottom: 1px solid var(--shell-border);
+}
+
+.result-accordion .result-box {
+  border-radius: 0;
+  margin: 0;
+}
+
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.auth-page {
+  min-height: calc(100vh - 56px);
+  display: grid;
+  align-items: center;
+  padding: 16px;
+  background:
+    radial-gradient(900px 460px at 2% 0%, rgba(56, 189, 248, 0.2) 0%, transparent 60%),
+    radial-gradient(700px 420px at 100% 100%, rgba(34, 197, 94, 0.16) 0%, transparent 58%),
+    linear-gradient(148deg, #f8fbff 0%, #f0fffb 100%);
+}
+
+.auth-shell {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 32px 80px rgba(15, 23, 42, 0.16);
+  backdrop-filter: blur(10px);
+  animation: auth-rise 420ms ease-out both;
+}
+
+.auth-hero {
+  min-height: 100%;
+  color: #fff;
+  background:
+    radial-gradient(560px 320px at 80% 15%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+    linear-gradient(155deg, var(--auth-accent), var(--auth-accent-2));
+}
+
+.auth-chip {
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.auth-form-pane {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.auth-title {
+  color: var(--auth-ink);
+  font-size: clamp(1.2rem, 2.6vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.auth-sub {
+  color: var(--auth-muted);
+  font-size: 0.9rem;
+}
+
+.auth-item {
+  --border-radius: 14px;
+  --border-color: #d7deeb;
+  --inner-padding-top: 8px;
+  --inner-padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+ion-content {
+  --background: transparent;
+}
+
+ion-card.section-card ion-card-title {
+  color: var(--shell-ink);
+  letter-spacing: 0.01em;
+}
+
+ion-card.section-card ion-card-subtitle {
+  color: var(--shell-muted);
+  font-weight: 600;
+}
+
+ion-item {
+  --background: var(--ui-control-bg);
+  --border-color: var(--ui-control-border);
+  --border-radius: var(--ui-radius-md);
+  --inner-padding-top: 4px;
+  --inner-padding-bottom: 4px;
+  --min-height: var(--ui-input-height);
+  backdrop-filter: blur(6px);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+ion-item:focus-within {
+  box-shadow: 0 0 0 3px var(--ui-control-focus);
+  transform: translateY(-1px);
+}
+
+ion-input,
+ion-select,
+ion-textarea {
+  --color: var(--ui-control-text);
+  --placeholder-color: color-mix(in srgb, var(--shell-muted) 72%, #ffffff 28%);
+  --background: transparent;
+}
+
+ion-input::part(native),
+ion-select::part(text),
+ion-textarea::part(native) {
+  color: var(--ui-control-text);
+  font-size: 0.9rem;
+}
+
+ion-label[position='stacked'] {
+  font-size: 0.74rem !important;
+  line-height: 1.2 !important;
+  margin-bottom: 4px !important;
+}
+
+input.form-control,
+input.form-control-sm,
+select.form-select,
+select.form-select-sm,
+textarea.form-control {
+  min-height: var(--ui-input-height);
+  height: var(--ui-input-height);
+  border-radius: var(--ui-radius-md) !important;
+  border: 1px solid var(--ui-control-border) !important;
+  background: var(--ui-control-bg) !important;
+  color: var(--ui-control-text) !important;
+  box-shadow: none !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+input.form-control:focus,
+select.form-select:focus,
+textarea.form-control:focus {
+  border-color: color-mix(in srgb, var(--ui-primary-b) 52%, #ffffff 48%) !important;
+  box-shadow: 0 0 0 3px var(--ui-control-focus) !important;
+  transform: translateY(-1px);
+}
+
+textarea.form-control,
+textarea.form-control-sm {
+  min-height: var(--ui-textarea-height) !important;
+  height: var(--ui-textarea-height) !important;
+  line-height: 1.35 !important;
+}
+
+ion-textarea {
+  --min-height: var(--ui-textarea-height);
+}
+
+ion-textarea::part(native) {
+  min-height: var(--ui-textarea-height) !important;
+  height: var(--ui-textarea-height) !important;
+  line-height: 1.35 !important;
+}
+
+ion-button {
+  --border-radius: var(--ui-radius-md);
+  --box-shadow: 0 10px 20px rgba(15, 23, 42, 0.14);
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  min-height: 44px;
+  text-transform: none;
+  --background: linear-gradient(135deg, var(--ui-primary-a), var(--ui-primary-b)) !important;
+  --background-hover: linear-gradient(135deg, #38bdf8, #2563eb) !important;
+  --background-activated: linear-gradient(135deg, #0284c7, #1d4ed8) !important;
+  --border-color: transparent !important;
+  --color: #ffffff !important;
+}
+
+ion-button[color='primary'] {
+  --background: linear-gradient(135deg, var(--ui-primary-a), var(--ui-primary-b));
+  --background-hover: linear-gradient(135deg, #38bdf8, #2563eb);
+  --background-activated: linear-gradient(135deg, #0284c7, #1d4ed8);
+}
+
+ion-button[color='secondary'] {
+  --background: linear-gradient(135deg, var(--ui-secondary-a), var(--ui-secondary-b));
+  --background-hover: linear-gradient(135deg, #2dd4bf, #0f766e);
+  --background-activated: linear-gradient(135deg, #0d9488, #115e59);
+}
+
+ion-button[color='tertiary'] {
+  --background: linear-gradient(135deg, var(--ui-tertiary-a), var(--ui-tertiary-b));
+  --background-hover: linear-gradient(135deg, #fbbf24, #d97706);
+  --background-activated: linear-gradient(135deg, #f59e0b, #b45309);
+}
+
+ion-button[fill='outline'] {
+  --background: rgba(255, 255, 255, 0.82) !important;
+  --color: var(--ui-primary-b) !important;
+  --border-color: color-mix(in srgb, var(--ui-primary-b) 40%, #ffffff 60%) !important;
+  --box-shadow: 0 8px 16px rgba(15, 23, 42, 0.1);
+}
+
+.btn.btn-sm,
+button.btn {
+  border-radius: var(--ui-radius-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-weight: 700;
+  min-height: 38px;
+  border-width: 1px !important;
+}
+
+.btn-primary {
+  border-color: transparent !important;
+  background: linear-gradient(135deg, var(--ui-primary-a), var(--ui-primary-b)) !important;
+}
+
+.btn-secondary {
+  border-color: transparent !important;
+  background: linear-gradient(135deg, var(--ui-secondary-a), var(--ui-secondary-b)) !important;
+}
+
+.btn-tertiary {
+  border-color: transparent !important;
+  background: linear-gradient(135deg, var(--ui-tertiary-a), var(--ui-tertiary-b)) !important;
+}
+
+.btn-outline-danger {
+  border-color: color-mix(in srgb, var(--ui-danger-b) 45%, #ffffff 55%) !important;
+  color: #ef4444 !important;
+}
+
+.btn-outline-primary,
+.btn-outline-secondary,
+.btn-outline-success,
+.btn-outline-warning,
+.btn-outline-danger {
+  background: rgba(255, 255, 255, 0.78) !important;
+  backdrop-filter: blur(6px);
+  border-color: color-mix(in srgb, var(--ui-primary-b) 42%, #ffffff 58%) !important;
+  color: var(--ui-primary-b) !important;
+}
+
+.auth-item {
+  --border-color: var(--ui-control-border) !important;
+}
+
+.btn.btn-sm:hover,
+button.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.16);
+}
+
+.page-shell > * {
+  animation: stagger-in 420ms ease both;
+}
+
+.page-shell > *:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.page-shell > *:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.page-shell > *:nth-child(4) {
+  animation-delay: 170ms;
+}
+
+@keyframes surface-lift {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-actions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@keyframes auth-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 991.98px) {
+  .auth-page {
+    align-items: start;
+    min-height: auto;
+    padding: 10px;
+  }
+
+  .auth-shell {
+    border-radius: 18px;
+  }
+
+  .auth-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Keep page headers from consuming space inside custom app shell */
+app-root .customer-main ion-header {
+  display: none !important;
+}
+
+app-root .customer-main ion-content {
+  --padding-top: 10px !important;
+  --padding-start: 10px !important;
+  --padding-end: 10px !important;
+  --padding-bottom: 14px !important;
+}
+
+app-root .customer-main ion-content > .page-shell,
+app-root .customer-main ion-content > .container-fluid {
+  width: min(1220px, 100%);
+  margin-inline: auto;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+app-root .customer-main ion-content .container-fluid {
+  padding-inline: 0;
+}
+
+app-root .customer-main ion-content > .container-fluid > .row {
+  margin-top: 0 !important;
+}
+
+app-root .customer-main ion-content > .page-shell > :first-child,
+app-root .customer-main ion-content > .container-fluid > :first-child,
+app-root .customer-main ion-content > .container-fluid > .row > [class*='col-'] > :first-child {
+  margin-top: 0 !important;
+}
+
+app-root .customer-main .card,
+app-root .customer-main .section-card {
+  border-radius: var(--ui-radius-lg) !important;
+  border: 1px solid var(--shell-border) !important;
+  background: var(--shell-card-bg) !important;
+  box-shadow: var(--shell-shadow) !important;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Hard uniform layer across all pages (Ionic + Bootstrap controls) */
+app-root .customer-main button,
+app-root .customer-main .btn,
+.auth-page button,
+.auth-page .btn {
+  border-radius: var(--ui-radius-md) !important;
+  min-height: 42px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  border: 1px solid transparent !important;
+  background: linear-gradient(135deg, var(--ui-primary-a), var(--ui-primary-b)) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.14) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+app-root .customer-main button:hover,
+app-root .customer-main .btn:hover,
+.auth-page button:hover,
+.auth-page .btn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18) !important;
+}
+
+app-root .customer-main button.btn-outline-primary,
+app-root .customer-main button.btn-outline-secondary,
+app-root .customer-main button.btn-outline-success,
+app-root .customer-main button.btn-outline-warning,
+app-root .customer-main button.btn-outline-danger,
+app-root .customer-main .btn-outline-primary,
+app-root .customer-main .btn-outline-secondary,
+app-root .customer-main .btn-outline-success,
+app-root .customer-main .btn-outline-warning,
+app-root .customer-main .btn-outline-danger,
+.auth-page .btn-outline-primary,
+.auth-page .btn-outline-secondary,
+.auth-page .btn-outline-success,
+.auth-page .btn-outline-warning,
+.auth-page .btn-outline-danger {
+  background: rgba(255, 255, 255, 0.84) !important;
+  color: var(--ui-primary-b) !important;
+  border-color: color-mix(in srgb, var(--ui-primary-b) 40%, #ffffff 60%) !important;
+}
+
+app-root .customer-main input:not([type='checkbox']):not([type='radio']),
+app-root .customer-main select,
+.auth-page input:not([type='checkbox']):not([type='radio']),
+.auth-page select {
+  min-height: var(--ui-input-height) !important;
+  height: var(--ui-input-height) !important;
+  border-radius: var(--ui-radius-md) !important;
+  border: 1px solid var(--ui-control-border) !important;
+  background: var(--ui-control-bg) !important;
+  color: var(--ui-control-text) !important;
+  box-shadow: none !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease !important;
+}
+
+app-root .customer-main input:not([type='checkbox']):not([type='radio']):focus,
+app-root .customer-main select:focus,
+.auth-page input:not([type='checkbox']):not([type='radio']):focus,
+.auth-page select:focus {
+  border-color: color-mix(in srgb, var(--ui-primary-b) 52%, #ffffff 48%) !important;
+  box-shadow: 0 0 0 3px var(--ui-control-focus) !important;
+  transform: translateY(-1px) !important;
+}
+
+app-root .customer-main textarea,
+.auth-page textarea {
+  min-height: var(--ui-textarea-height) !important;
+  height: var(--ui-textarea-height) !important;
+  border-radius: var(--ui-radius-md) !important;
+  border: 1px solid var(--ui-control-border) !important;
+  background: var(--ui-control-bg) !important;
+  color: var(--ui-control-text) !important;
+}
+
+app-root .customer-main textarea:focus,
+.auth-page textarea:focus {
+  border-color: color-mix(in srgb, var(--ui-primary-b) 52%, #ffffff 48%) !important;
+  box-shadow: 0 0 0 3px var(--ui-control-focus) !important;
+  transform: translateY(-1px) !important;
+}
+
+app-root .customer-main input[type='checkbox'],
+app-root .customer-main input[type='radio'],
+.auth-page input[type='checkbox'],
+.auth-page input[type='radio'] {
+  min-height: auto !important;
+  height: auto !important;
+  width: 1rem !important;
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+}
+
+app-root .customer-main .form-check-input,
+.auth-page .form-check-input {
+  appearance: checkbox !important;
+  -webkit-appearance: checkbox !important;
+  display: inline-block !important;
+  flex: 0 0 auto !important;
+  width: 1.05rem !important;
+  height: 1.05rem !important;
+  min-width: 1.05rem !important;
+  min-height: 1.05rem !important;
+  margin-top: 0.15rem !important;
+  border: 1px solid #64748b !important;
+  border-radius: 0.2rem !important;
+  background-color: #ffffff !important;
+  vertical-align: middle !important;
+  accent-color: #2563eb !important;
+  cursor: pointer !important;
+}
+
+app-root .customer-main .form-check-input:checked,
+.auth-page .form-check-input:checked {
+  border-color: #2563eb !important;
+  background-color: #ffffff !important;
+}
+
+app-root .customer-main .form-check-label,
+.auth-page .form-check-label {
+  cursor: pointer;
+}
+
+app-root .customer-main .card-header,
+app-root .customer-main .section-card ion-card-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--shell-border) !important;
+}
+
+app-root .customer-main .card-header .tiny,
+app-root .customer-main ion-card-header ion-card-subtitle {
+  margin-bottom: 4px;
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  color: var(--shell-muted);
+}
+
+app-root .customer-main .card-header h6,
+app-root .customer-main ion-card-header ion-card-title {
+  margin: 0;
+  line-height: 1.25;
+  font-weight: 700;
+  font-size: clamp(1rem, 1.15vw, 1.1rem);
+  letter-spacing: 0.01em;
+  color: var(--shell-ink);
+}
+
+app-root .customer-main .card-header,
+app-root .customer-main ion-card-header {
+  padding-top: 14px !important;
+  padding-bottom: 12px !important;
+}
+
+app-root .customer-main .card-body,
+app-root .customer-main ion-card-content {
+  padding-top: 14px !important;
+}
+
+ion-header ion-toolbar ion-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+app-root .customer-main .card-body {
+  color: var(--shell-ink);
+}
+
+app-root .customer-main h1,
+app-root .customer-main h2,
+app-root .customer-main h3,
+app-root .customer-main h4,
+app-root .customer-main h5,
+app-root .customer-main h6 {
+  letter-spacing: 0.01em;
+  color: var(--shell-ink);
+}
+
+@media (max-width: 991.98px) {
+  app-root .customer-main ion-content {
+    --padding-top: 8px !important;
+    --padding-start: 6px !important;
+    --padding-end: 6px !important;
+  }
+}
+
+/* Bootstrap-only visual mode for all pages except Negotiation Flow */
+.boot-ui .section-card,
+.boot-ui .card {
+  border-radius: 14px !important;
+}
+
+.boot-ui ion-item {
+  --background: transparent !important;
+  --inner-border-width: 0 !important;
+  --border-width: 0 !important;
+  --padding-start: 0 !important;
+  --inner-padding-end: 0 !important;
+  --inner-padding-top: 0 !important;
+  --inner-padding-bottom: 0 !important;
+  margin-bottom: 10px;
+}
+
+.boot-ui ion-label[position='stacked'] {
+  font-size: 0.78rem !important;
+  line-height: 1.2 !important;
+  margin-bottom: 6px !important;
+  color: var(--shell-muted) !important;
+}
+
+.boot-ui ion-input,
+.boot-ui ion-select,
+.boot-ui ion-textarea {
+  --background: #fff !important;
+  --padding-start: 10px !important;
+  --padding-end: 10px !important;
+  --border-radius: 10px !important;
+  --color: #111827 !important;
+  border: 1px solid #cfd8ea !important;
+  border-radius: 10px !important;
+  min-height: 38px !important;
+}
+
+.boot-ui ion-input:focus-within,
+.boot-ui ion-select:focus-within,
+.boot-ui ion-textarea:focus-within {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16) !important;
+}
+
+.boot-ui ion-textarea {
+  min-height: 96px !important;
+}
+
+.boot-ui ion-button {
+  --background: linear-gradient(135deg, #0ea5e9, #2563eb) !important;
+  --background-hover: linear-gradient(135deg, #38bdf8, #2563eb) !important;
+  --background-activated: linear-gradient(135deg, #0284c7, #1d4ed8) !important;
+  --color: #ffffff !important;
+  --border-radius: 10px !important;
+  --box-shadow: 0 8px 18px rgba(15, 23, 42, 0.16) !important;
+  min-height: 40px !important;
+  font-weight: 700 !important;
+}
+
+.boot-ui ion-button[fill='outline'] {
+  --background: #ffffff !important;
+  --color: #2563eb !important;
+  --border-color: #93c5fd !important;
+}
+
+/* Forced decision button palette for Negotiation Flow */
+app-root .customer-main .signal-list button.btn.decision-accept,
+app-root .customer-main .signal-list .btn.decision-accept {
+  color: #0f766e !important;
+  border-color: #0f766e !important;
+  background: rgba(15, 118, 110, 0.1) !important;
+}
+
+app-root .customer-main .signal-list button.btn.decision-accept:hover,
+app-root .customer-main .signal-list button.btn.decision-accept.active,
+app-root .customer-main .signal-list .btn.decision-accept:hover,
+app-root .customer-main .signal-list .btn.decision-accept.active {
+  color: #ffffff !important;
+  border-color: #0f766e !important;
+  background: linear-gradient(135deg, #14b8a6, #0f766e) !important;
+}
+
+app-root .customer-main .signal-list button.btn.decision-modify,
+app-root .customer-main .signal-list .btn.decision-modify {
+  color: #b45309 !important;
+  border-color: #b45309 !important;
+  background: rgba(245, 158, 11, 0.12) !important;
+}
+
+app-root .customer-main .signal-list button.btn.decision-modify:hover,
+app-root .customer-main .signal-list button.btn.decision-modify.active,
+app-root .customer-main .signal-list .btn.decision-modify:hover,
+app-root .customer-main .signal-list .btn.decision-modify.active {
+  color: #ffffff !important;
+  border-color: #b45309 !important;
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+}
+
+app-root .customer-main .signal-list button.btn.decision-reject,
+app-root .customer-main .signal-list .btn.decision-reject {
+  color: #b91c1c !important;
+  border-color: #b91c1c !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+app-root .customer-main .signal-list button.btn.decision-reject:hover,
+app-root .customer-main .signal-list button.btn.decision-reject.active,
+app-root .customer-main .signal-list .btn.decision-reject:hover,
+app-root .customer-main .signal-list .btn.decision-reject.active {
+  color: #ffffff !important;
+  border-color: #b91c1c !important;
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+}
+
+app-root .customer-main .signal-list button.btn.decision-reply,
+app-root .customer-main .signal-list .btn.decision-reply {
+  color: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+  background: rgba(37, 99, 235, 0.08) !important;
+}
+
+app-root .customer-main .signal-list button.btn.decision-reply:hover,
+app-root .customer-main .signal-list button.btn.decision-reply.active,
+app-root .customer-main .signal-list .btn.decision-reply:hover,
+app-root .customer-main .signal-list .btn.decision-reply.active {
+  color: #ffffff !important;
+  border-color: #1d4ed8 !important;
+  background: linear-gradient(135deg, #0ea5e9, #2563eb) !important;
+}

@@ -1,0 +1,7 @@
+{
+  "name": "nego-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -400,3 +400,4 @@ python -m pip install --upgrade pip
   uvicorn app.main:app --reload
 
 "# negitiation" 
+"# nego" 
